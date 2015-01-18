@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 #! coding: utf-8
 
 # This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,11 @@ import email
 import hashlib
 import shutil
 import subprocess
-from subprocess import DEVNULL
+try:
+    from subprocess import DEVNULL
+except ImportError:
+    import os
+    DEVNULL = open(os.devnull, 'wb')
 import tempfile
 import signal
 import pyqrcode
@@ -1368,9 +1372,8 @@ class CFDIPDF(object):
             data += '\n\nCuenta Predial Número: %s' % n.attrib['numero']
         iedu = c.find(self.tree['iedu'])
         if iedu is not None:
-            data += u'\n\nAlumno: %s\nCURP: %s' % (
-                iedu.attrib['nombreAlumno'], iedu.attrib['CURP'])
-            data += u'\nAcuerdo de incorporación ante la SEP %s %s' % (
+            data += '\n\nAlumno: %s\nCURP: %s' % (iedu.attrib['nombreAlumno'], iedu.attrib['CURP'])
+            data += '\nAcuerdo de incorporación ante la SEP %s %s' % (
                 iedu.attrib['nivelEducativo'], iedu.attrib['autRVOE'])
         return data
 
